@@ -1,6 +1,6 @@
 # apache-php5
 
-This repo used in Dockerhub url 'https://hub.docker.com/r/porchn/php5.6.28-apache/'
+This repo used in Dockerhub url 'https://hub.docker.com/r/porchn/php5.6-apache/'
 
 
 ## Module install in images
@@ -32,7 +32,7 @@ This repo used in Dockerhub url 'https://hub.docker.com/r/porchn/php5.6.28-apach
 
 ## How to use with Docker
 ```
-docker run --name testphp -p 8080:80 -d -v $(pwd):/var/www/html porchn/php5.6.28-apache
+docker run --name testphp -p 8080:80 -d -v $(pwd):/var/www/html porchn/php5.6-apache
 ```
 ## Use with Docker-compose 
 ```

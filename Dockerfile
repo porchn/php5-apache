@@ -47,7 +47,6 @@ RUN docker-php-ext-enable imagick
 
 # Defaul config php.ini
 COPY ./config/php.ini /usr/local/etc/php/
-COPY ./config/timezone.ini /usr/local/etc/php/conf.d/
 COPY ./index.php /var/www/html/
 
 # Enable Apache mod_rewrite
@@ -58,6 +57,7 @@ RUN a2enmod ssl
 RUN a2enmod headers
 
 # Create Volume
-VOLUME ['var/www/html']
+VOLUME ['/etc/apache2/sites-enabled','/var/www','/var/log/apache2']
 
-EXPOSE 80 443
+EXPOSE 80
+EXPOSE 443

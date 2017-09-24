@@ -1,6 +1,6 @@
 # apache-php5
 
-This repo used in Dockerhub url 'https://hub.docker.com/r/porchn/php5.6.28-apache/'
+This repo used in Dockerhub url 'https://hub.docker.com/r/porchn/php5.6.31-apache/'
 
 
 ## Module install in images

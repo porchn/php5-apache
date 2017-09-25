@@ -14,32 +14,8 @@ RUN apt-get -y install libmemcached11 libmemcachedutil2 libmemcached-dev libz-de
     && apt-get -y install libcurl4-openssl-dev \
     && apt-get -y install libssl-dev libc-client2007e-dev libkrb5-dev \
     && apt-get -y install libmcrypt-dev
-#     && apt-get -y install libpng12-dev libjpeg-dev \
-#     && apt-get -y install re2c libmcrypt-dev \
-#     && apt-get -y install zlib1g-dev \
-#     && apt-get -y install libssl-dev libc-client2007e-dev libkrb5-dev \
-#     && apt-get -y install libcurl4-gnutls-dev \
-#     && apt-get -y install libxml2-dev libxslt-dev \
-#     && apt-get -y install libssl-dev \
-#     && apt-get -y install libcurl4-openssl-dev \
-# RUN apt-get -y install libmagickwand-dev libmagickcore-dev
 
-
-# RUN docker-php-ext-install bcmath \
-#     && docker-php-ext-configure gd --with-jpeg-dir=/usr/lib \
-#     && docker-php-ext-install gd \
-#     && docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
-#     && docker-php-ext-install imap \
-#     && docker-php-ext-install mbstring \
-#     && docker-php-ext-install mcrypt \
-#     && docker-php-ext-install mysqli \
-#     && docker-php-ext-install pdo_mysql \
-#     && docker-php-ext-install zip \
-#     && docker-php-ext-install mysql
-
-
-
-## Extension
+# Extension mysqli mysql mbstring opcache pdo_mysql gd mcrypt zip imap bcmath
 RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/lib \
     && docker-php-ext-configure imap --with-imap-ssl --with-kerberos
 RUN docker-php-ext-install mysqli mysql mbstring opcache pdo_mysql gd mcrypt zip imap

@@ -28,6 +28,7 @@ RUN docker-php-ext-enable memcached
 RUN pecl install imagick
 RUN docker-php-ext-enable imagick
 
+RUN chown -R www-data:www-data /var/www
 # Defaul config php.ini
 COPY ./config/php.ini /usr/local/etc/php/
 COPY ./index.php /var/www/html/

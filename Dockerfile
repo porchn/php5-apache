@@ -34,6 +34,8 @@ RUN docker-php-ext-enable memcached
 RUN pecl install imagick
 RUN docker-php-ext-enable imagick
 
+RUN chown -R www-data:www-data /var/www
+
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 

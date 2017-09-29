@@ -7,7 +7,13 @@ RUN echo $TZ > /etc/timezone
 RUN dpkg-reconfigure -f noninteractive tzdata
 RUN mkdir -p /etc/apache2/ssl
 
-RUN apt-get -y update && apt-get -y upgrade
+RUN echo date.timezone = $TZ > /usr/local/etc/php/conf.d/docker-php-ext-timezone.ini
+# Defaul config php.ini
+COPY ./config/php.ini /usr/local/etc/php/
+COPY ./index.php /var/www/html/
+
+# RUN apt-get -y update && apt-get -y upgrade
+RUN apt-get -y update
 RUN apt-get -y install libmemcached11 libmemcachedutil2 libmemcached-dev libz-dev \
     && apt-get -y install build-essential apache2-utils \
     && apt-get -y install libmagickwand-dev libmagickcore-dev \
@@ -27,10 +33,6 @@ RUN docker-php-ext-enable memcached
 # Imagick
 RUN pecl install imagick
 RUN docker-php-ext-enable imagick
-
-# Defaul config php.ini
-COPY ./config/php.ini /usr/local/etc/php/
-COPY ./index.php /var/www/html/
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite

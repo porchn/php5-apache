@@ -16,14 +16,17 @@ COPY ./index.php /var/www/html/
 RUN apt-get -y update
 RUN apt-get -y install libmemcached11 libmemcachedutil2 libmemcached-dev libz-dev \
     && apt-get -y install build-essential apache2-utils \
-    && apt-get -y install libmagickwand-dev libmagickcore-dev \
+    && apt-get -y install libmagickwand-dev imagemagick \
     && apt-get -y install libcurl4-openssl-dev \
     && apt-get -y install libssl-dev libc-client2007e-dev libkrb5-dev \
-    && apt-get -y install libmcrypt-dev
+    && apt-get -y install libmcrypt-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Extension mysqli mysql mbstring opcache pdo_mysql gd mcrypt zip imap bcmath
+# Config Extension 
 RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/lib \
-    && docker-php-ext-configure imap --with-imap-ssl --with-kerberos
+    && docker-php-ext-configure imap --with-imap-ssl --with-kerberos 
+
+# Install Extension mysqli mysql mbstring opcache pdo_mysql gd mcrypt zip imap bcmath
 RUN docker-php-ext-install mysqli mysql mbstring opcache pdo_mysql gd mcrypt zip imap
 
 # Memcache
@@ -33,7 +36,6 @@ RUN docker-php-ext-enable memcached
 # Imagick
 RUN pecl install imagick
 RUN docker-php-ext-enable imagick
-
 RUN chown -R www-data:www-data /var/www
 
 # Enable Apache mod_rewrite
@@ -42,7 +44,7 @@ RUN a2enmod rewrite
 # Enable ssl
 RUN a2enmod ssl
 RUN a2enmod headers
-RUN rm -rf /var/lib/apt/lists/*
+
 # Create Volume
 VOLUME ['/etc/apache2/sites-enabled','/var/www','/var/log/apache2']
 

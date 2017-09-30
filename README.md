@@ -36,7 +36,7 @@ docker run --name testphp -p 8080:80 -d -v $(pwd):/var/www/html porchn/php5.6-ap
 ## Use with Docker-compose 
 ```
   apache:
-    image: porchn/php5.6.28-apache
+    image: porchn/php5.6-apache
     container_name: apache
     ports:
       - "80:80"

@@ -29,6 +29,13 @@ RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/lib \
 # Install Extension mysqli mysql mbstring opcache pdo_mysql gd mcrypt zip imap bcmath
 RUN docker-php-ext-install mysqli mysql mbstring opcache pdo_mysql gd mcrypt zip imap
 
+# Enable Apache mod_rewrite
+RUN a2enmod rewrite
+
+# Enable ssl
+RUN a2enmod ssl
+RUN a2enmod headers
+
 # Memcache
 RUN pecl install memcached-2.2.0
 RUN docker-php-ext-enable memcached
@@ -37,13 +44,6 @@ RUN docker-php-ext-enable memcached
 RUN pecl install imagick
 RUN docker-php-ext-enable imagick
 RUN chown -R www-data:www-data /var/www
-
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
-
-# Enable ssl
-RUN a2enmod ssl
-RUN a2enmod headers
 
 # Create Volume
 VOLUME ['/etc/apache2/sites-enabled','/var/www','/var/log/apache2']

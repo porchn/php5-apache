@@ -26,8 +26,8 @@ RUN apt-get -y install libmemcached11 libmemcachedutil2 libmemcached-dev libz-de
 RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/lib \
     && docker-php-ext-configure imap --with-imap-ssl --with-kerberos 
 
-# Install Extension mysqli mysql mbstring opcache pdo_mysql gd mcrypt zip imap bcmath
-RUN docker-php-ext-install mysqli mysql mbstring opcache pdo_mysql gd mcrypt zip imap
+# Install Extension mysqli mysql mbstring opcache pdo_mysql gd mcrypt zip imap bcmath soap
+RUN docker-php-ext-install mysqli mysql mbstring opcache pdo_mysql gd mcrypt zip imap soap
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite

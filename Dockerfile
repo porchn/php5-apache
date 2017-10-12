@@ -14,20 +14,29 @@ COPY ./index.php /var/www/html/
 
 # RUN apt-get -y update && apt-get -y upgrade
 RUN apt-get -y update
-RUN apt-get -y install libmemcached11 libmemcachedutil2 libmemcached-dev libz-dev \
-    && apt-get -y install build-essential apache2-utils \
-    && apt-get -y install libmagickwand-dev imagemagick \
-    && apt-get -y install libcurl4-openssl-dev \
-    && apt-get -y install libssl-dev libc-client2007e-dev libkrb5-dev \
-    && apt-get -y install libmcrypt-dev \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get install -y --no-install-recommends \
+    libmemcached11 \
+    libmemcachedutil2 \
+    libmemcached-dev \
+    libz-dev \
+    build-essential \
+    apache2-utils \
+    libmagickwand-dev \
+    imagemagick \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libc-client2007e-dev \
+    libkrb5-dev \
+    libmcrypt-dev \
+    unixodbc-dev
 
 # Config Extension 
 RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/lib \
-    && docker-php-ext-configure imap --with-imap-ssl --with-kerberos 
+    && docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
+    && docker-php-ext-configure pdo_odbc --with-pdo-odbc=unixODBC,/usr
 
-# Install Extension mysqli mysql mbstring opcache pdo_mysql gd mcrypt zip imap bcmath soap
-RUN docker-php-ext-install mysqli mysql mbstring opcache pdo_mysql gd mcrypt zip imap soap
+# Install Extension mysqli mysql mbstring opcache pdo_mysql gd mcrypt zip imap bcmath soap pdo
+RUN docker-php-ext-install mysqli mysql mbstring opcache pdo_mysql gd mcrypt zip imap soap pdo pdo_odbc
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
@@ -44,6 +53,9 @@ RUN docker-php-ext-enable memcached
 RUN pecl install imagick
 RUN docker-php-ext-enable imagick
 RUN chown -R www-data:www-data /var/www
+
+# Clean apt cache
+RUN rm -rf /var/lib/apt/lists/*
 
 # Create Volume
 VOLUME ['/etc/apache2/sites-enabled','/var/www','/var/log/apache2']

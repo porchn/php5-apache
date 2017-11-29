@@ -3,18 +3,19 @@ FROM php:5.6-apache
 
 ENV TZ=Asia/Bangkok
 # Set Server timezone.
-RUN echo $TZ > /etc/timezone
-RUN dpkg-reconfigure -f noninteractive tzdata
+RUN echo $TZ > /etc/timezone \
+    && dpkg-reconfigure -f noninteractive tzdata \
+    && echo date.timezone = $TZ > /usr/local/etc/php/conf.d/docker-php-ext-timezone.ini
+
 RUN mkdir -p /etc/apache2/ssl
 
-RUN echo date.timezone = $TZ > /usr/local/etc/php/conf.d/docker-php-ext-timezone.ini
 # Defaul config php.ini
 COPY ./config/php.ini /usr/local/etc/php/
 COPY ./index.php /var/www/html/
 
 # RUN apt-get -y update && apt-get -y upgrade
-RUN apt-get -y update
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get -y update \
+    && apt-get install -y --no-install-recommends \
     libmemcached11 \
     libmemcachedutil2 \
     libmemcached-dev \
@@ -28,7 +29,10 @@ RUN apt-get install -y --no-install-recommends \
     libc-client2007e-dev \
     libkrb5-dev \
     libmcrypt-dev \
-    unixodbc-dev
+    unixodbc-dev \
+    && apt-get clean \
+    && rm -r /var/lib/apt/lists/*
+
 
 # Config Extension 
 RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/lib \
@@ -39,23 +43,17 @@ RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/lib \
 RUN docker-php-ext-install mysqli mysql mbstring opcache pdo_mysql gd mcrypt zip imap soap pdo pdo_odbc
 
 # Enable Apache mod_rewrite
-RUN a2enmod rewrite
-
-# Enable ssl
-RUN a2enmod ssl
-RUN a2enmod headers
+RUN a2enmod rewrite ssl headers
 
 # Memcache
-RUN pecl install memcached-2.2.0
-RUN docker-php-ext-enable memcached
+RUN pecl install memcached-2.2.0 \
+    && docker-php-ext-enable memcached
 
 # Imagick
-RUN pecl install imagick
-RUN docker-php-ext-enable imagick
+RUN pecl install imagick \
+    && docker-php-ext-enable imagick
+    
 RUN chown -R www-data:www-data /var/www
-
-# Clean apt cache
-RUN rm -rf /var/lib/apt/lists/*
 
 # Create Volume
 VOLUME ['/etc/apache2/sites-enabled','/var/www','/var/log/apache2']

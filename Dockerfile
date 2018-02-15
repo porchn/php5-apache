@@ -16,6 +16,7 @@ COPY ./index.php /var/www/html/
 # RUN apt-get -y update && apt-get -y upgrade
 RUN apt-get -y update \
     && apt-get install -y --no-install-recommends \
+    pdftk \
     libmemcached11 \
     libmemcachedutil2 \
     libmemcached-dev \

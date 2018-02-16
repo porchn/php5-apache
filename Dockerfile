@@ -54,7 +54,7 @@ RUN pecl install imagick \
     && docker-php-ext-enable imagick
     
 RUN chown -R www-data:www-data /var/www
-
+USER www-data
 # Create Volume
 VOLUME ['/etc/apache2/sites-enabled','/var/www','/var/log/apache2']
 

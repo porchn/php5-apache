@@ -19,6 +19,14 @@ RUN apt-get -y update \
     unzip \
     git \
     vim \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng12-dev \
+    libicu-dev \
+    zlib1g-dev \
+    libxml2-dev \
+    libaio-dev \
+    libgearman-dev \
     unixodbc-dev \
     freetds-bin \
     freetds-dev \

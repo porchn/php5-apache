@@ -31,6 +31,8 @@ RUN apt-get -y update \
     libkrb5-dev \
     libmcrypt-dev \
     unixodbc-dev \
+    libav-tools \
+    ffmpeg \
     && apt-get clean \
     && rm -r /var/lib/apt/lists/*
 
